@@ -17,6 +17,8 @@ import ChangePassword from './routes/auth/changePassword'
 import Landing from './routes/landing'
 //import Home from './routes/home'
 import Home from './routes/Home.js'
+import Driver from './routes/Driver.js'
+import Logout from "./routes/auth/logout";
 
 let lightTheme = createMuiTheme({
   palette: {
@@ -41,6 +43,7 @@ const SignInRoute: React.FunctionComponent = () => (
       <Route path="/requestcode" component={RequestCode} />
       <Route path="/forgotpassword" component={ForgotPassword} />
       <Route path="/" component={Landing} />
+
     </Switch>
   </Router>
 )
@@ -49,7 +52,10 @@ const MainRoute: React.FunctionComponent = () => (
   <Router>
     <Switch>
       <Route path="/changepassword" component={ChangePassword} />
+        <Route path="/logout" component={Logout} />
+        <Route path="/driver" component={Driver} />
       <Route path="/" component={Home} />
+
     </Switch>
   </Router>
 )

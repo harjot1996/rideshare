@@ -17,12 +17,7 @@ function Header() {
   const logout = () => {
     const isLogout = window.confirm('Do you want to log out ?');
     if (isLogout) {
-      // remove local storage.
-      localStorage.removeItem('auth');
-      // remove authenticated user from context.
-      setUser(null);
-      // redirect to login page.
-      history.push('/login');
+      history.push('logout')
     }
   }
 

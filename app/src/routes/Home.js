@@ -1,134 +1,112 @@
-// import useContext, useRef, useEffect, useCallback
-import {useContext, useRef, useEffect, useCallback, useState} from 'react';
-// import custom components.
-import Header from './Header';
-import AddressPicker from './AddressPicker';
-import RideList from './RideList';
-import RideDetail from './RideDetail';
-// import Context
-import Context from '../Context';
-// import leaflet
-import L from "leaflet";
+import React, {useState} from "react";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import {makeStyles} from "@material-ui/core/styles";
+import {useHistory} from "react-router-dom";
 
-require("leaflet-routing-machine");
-
-const style = {
-  width: "100%",
-  height: "100vh"
-};
+const useStyles = makeStyles({
+    root: {
+        height: '100vh',
+    },
+    hover: {
+        '&:hover': { cursor: 'pointer' },
+    },
+})
 
 function Home() {
-  const [isLoading, setIsLoading] = useState(false);
-  // user state contains authenticated user.
-  const [user, setUser] = useState(null);
-  // comet chat.
-  const [cometChat, setCometChat] = useState(null);
-  // selected from, selected to.
-  const [selectedFrom, setSelectedFrom] = useState(null);
-  const [selectedTo, setSelectedTo] = useState(null);
-  // created ride request.
-  const [rideRequest, setRideRequest] = useState(null);
-  // current ride.
-  const [currentRide, setCurrentRide] = useState(null);
 
+    const classes = useStyles();
+    const history = useHistory();
 
-  const map = useRef();
-  const routeControl = useRef();
+    let is_active_driver = 'N';
+    let is_active_rider = 'N';
 
-  useEffect(() => {
-    initMap();
-    initRouteControl();
-  }, []);
+    const user_id = localStorage.getItem("rs_share_user");
 
-  const drawRoute = useCallback((from, to) => {
-    if (shouldRouteDrawed(from, to) && routeControl && routeControl.current) {
-      const fromLatLng = new L.LatLng(from.y, from.x);
-      const toLatLng = new L.LatLng(to.y, to.x);
-      routeControl.current.setWaypoints([fromLatLng, toLatLng]);
+    const [activeDriver, setActiveDriver] = useState("Loading");
+    const [activeRider, setActiveRider] = useState("Loading");
+
+    fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
+        .then(res => res.json())
+        .then((result) => {
+                console.log(result);
+                if (result !== 'null') {
+                    setActiveDriver("Y");
+                } else {setActiveDriver("N")}},
+            (error) => { return error; }
+        )
+
+    fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
+        .then(res => res.json())
+        .then((result) => {
+                if (result !== 'null') {
+                    setActiveRider("N"); //TO DO FIX THIS
+                } else {setActiveRider("N")}},
+            (error) => { return error; }
+        )
+
+    function activateDriver() {
+        console.log("activating");
+        history.push('driver');
     }
-  }, []);
 
-  useEffect(() => {
-    if (shouldRouteDrawed(selectedFrom, selectedTo)) {
-      drawRoute(selectedFrom, selectedTo);
+
+    if (activeDriver === 'Loading' || activeRider === 'Loading') {
+        return (
+            <div>Loading</div>
+        );
+    } else if (activeDriver === 'Y') {
+        return (
+
+            <div>Driver</div>
+        );
+    } else if (activeRider === 'Y') {
+        return (
+
+            <div>Rider</div>
+        );
+    } else {
+        return (
+            <Grid className={classes.root} container direction="row" justify="center" alignItems="center">
+                <Grid xs={11} sm={6} lg={4} container direction="row" justify="center" alignItems="center" item>
+                    <Paper style={{ width: '100%', padding: 32 }}>
+                        <Grid container direction="column" justify="center" alignItems="center">
+                            {/* Title */}
+                            <Box m={2}>
+                                <Typography variant="h3">Sign in</Typography>
+                            </Box>
+
+                            {/* Sign In Form */}
+                            <Box width="80%" m={1}>
+                                {/* <Email emailIsValid={emailIsValid} setEmail={setEmail} /> */}
+                                <Grid container direction="row" justify="center">
+                                    <Box m={1}>
+                                        <Button style={{width: '200px'}} color="secondary" variant="contained" onClick={activateDriver}>
+                                            Start Ride
+                                        </Button>
+                                    </Box>
+                                </Grid>
+                            </Box>
+                            <Box width="80%" m={1}>
+                                {/* <Email emailIsValid={emailIsValid} setEmail={setEmail} /> */}
+                                <Grid container direction="row" justify="center">
+                                    <Box m={1}>
+                                        <Button style={{width: '200px'}} color="primary" variant="contained" >
+                                            Join Ride
+                                        </Button>
+                                    </Box>
+                                </Grid>
+                            </Box>
+                        </Grid>
+                    </Paper>
+                </Grid>
+            </Grid>
+        )
     }
-  }, [selectedFrom, selectedTo, drawRoute]);
 
-  /**
-   * check a route should be drawed, or not.
-   * @param {*} selectedFrom 
-   * @param {*} selectedTo 
-   */
-  const shouldRouteDrawed = (selectedFrom, selectedTo) => {
-    return selectedFrom && selectedTo && selectedFrom.label &&
-    selectedTo.label && selectedFrom.x && selectedTo.x &&
-    selectedFrom.y && selectedTo.y;   
-  };
-
-  /**
-   * init leaflet map.
-   */
-  const initMap = () => {
-    map.current = L.map("map", {
-      center: [38.8951, -77.0364],
-      zoom: 13,
-      layers: [
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        })
-      ]
-    });
-  };
-
-  /**
-   * init route control.
-   */
-  const initRouteControl = () => {
-    routeControl.current = L.Routing.control({
-      show: true,
-      fitSelectedRoutes: true,
-      plan: false,
-      lineOptions: {
-        styles: [
-          {
-            color: "blue",
-            opacity: "0.7",
-            weight: 6
-          }
-        ]
-      },
-      router: L.Routing.mapbox(`${process.env.REACT_APP_MAP_BOX_API_KEY}`)
-    })
-      .addTo(map.current)
-      .getPlan();  
-  };
-
-  const renderSidebar = () => {
-    //const isUser = user && user.role === 'user';
-    const isUser = true;
-    if (isUser && !currentRide) {
-      return <AddressPicker />
-    } 
-    if (isUser && currentRide) {
-      return <RideDetail user={currentRide.driver} isDriver={false} currentRide={currentRide} />
-    }
-    if (!isUser && !currentRide) {
-      return <RideList />
-    }
-    if (!isUser && currentRide) {
-      return <RideDetail user={currentRide.requestor} isDriver={true} currentRide={currentRide} />
-    }
-  }
-
-  return (
-      <Context.Provider value={{isLoading, setIsLoading, user, setUser, cometChat, selectedFrom, setSelectedFrom, selectedTo, setSelectedTo, rideRequest, setRideRequest, currentRide, setCurrentRide}}>
-    <>
-      <Header />
-      <div id="map" style={style} />
-      {renderSidebar()}
-    </>
-</Context.Provider>
-  );
 }
 
 export default Home;

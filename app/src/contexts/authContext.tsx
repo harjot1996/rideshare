@@ -77,6 +77,7 @@ const AuthProvider: React.FunctionComponent = ({ children }) => {
     try {
       await cognito.signInWithEmail(username, password)
       setAuthStatus(AuthStatus.SignedIn)
+      localStorage.setItem("rs_share_user", username)
     } catch (err) {
       setAuthStatus(AuthStatus.SignedOut)
       throw err
@@ -92,6 +93,9 @@ const AuthProvider: React.FunctionComponent = ({ children }) => {
   }
 
   function signOut() {
+    //let use = localStorage.getItem("rs_share_user")
+    //console.log(use)
+    localStorage.setItem("rs_share_user", "signed_out")
     cognito.signOut()
     setAuthStatus(AuthStatus.SignedOut)
   }
