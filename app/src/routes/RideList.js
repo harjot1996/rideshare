@@ -2,7 +2,7 @@
 import { useEffect, useState, useContext } from 'react';
 // import firebase authentication.
 // import Context
-import Context from '../Context';
+import Context from './Context';
 function RideList() {
 
   const [rideRequests, setRideRequests] = useState();

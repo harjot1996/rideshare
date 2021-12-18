@@ -1,7 +1,7 @@
 // import useContext
 import { useContext } from 'react';
 // import Context
-import Context from '../Context';
+import Context from './Context';
 // import react router
 import { useHistory } from 'react-router-dom';
 

@@ -5,7 +5,7 @@ import { useContext } from 'react';
 // import uuid to generate id for users.
 import { v4 as uuidv4 } from "uuid";
 // import Context
-import Context from '../Context';
+import Context from './Context';
 
 function RequestRide(props) {
   // get toggleModal functin from higher order components.

@@ -18,6 +18,7 @@ import Landing from './routes/landing'
 //import Home from './routes/home'
 import Home from './routes/Home.js'
 import Driver from './routes/Driver.js'
+import DriverActive from './routes/DriverActive.js'
 import Logout from "./routes/auth/logout";
 
 let lightTheme = createMuiTheme({
@@ -54,6 +55,7 @@ const MainRoute: React.FunctionComponent = () => (
       <Route path="/changepassword" component={ChangePassword} />
         <Route path="/logout" component={Logout} />
         <Route path="/driver" component={Driver} />
+        <Route path="/drivera" component={DriverActive} />
       <Route path="/" component={Home} />
 
     </Switch>

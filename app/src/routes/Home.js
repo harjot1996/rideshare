@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import {useHistory} from "react-router-dom";
 
+
 const useStyles = makeStyles({
     root: {
         height: '100vh',
@@ -26,27 +27,33 @@ function Home() {
 
     const user_id = localStorage.getItem("rs_share_user");
 
+
+
     const [activeDriver, setActiveDriver] = useState("Loading");
     const [activeRider, setActiveRider] = useState("Loading");
 
-    fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
-        .then(res => res.json())
-        .then((result) => {
-                console.log(result);
-                if (result !== 'null') {
-                    setActiveDriver("Y");
-                } else {setActiveDriver("N")}},
-            (error) => { return error; }
-        )
+    React.useEffect(() => {
+        fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
+            .then(res => res.json())
+            .then((result) => {
+                    console.log(result);
+                    if (result !== 'null') {
+                        setActiveDriver("Y");
+                    } else {setActiveDriver("N")}},
+                (error) => { return error; }
+            )
 
-    fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
-        .then(res => res.json())
-        .then((result) => {
-                if (result !== 'null') {
-                    setActiveRider("N"); //TO DO FIX THIS
-                } else {setActiveRider("N")}},
-            (error) => { return error; }
-        )
+        fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
+            .then(res => res.json())
+            .then((result) => {
+                    if (result !== 'null') {
+                        setActiveRider("N"); //TO DO FIX THIS
+                    } else {setActiveRider("N")}},
+                (error) => { return error; }
+            )
+    }, []);
+
+
 
     function activateDriver() {
         console.log("activating");
@@ -70,40 +77,42 @@ function Home() {
         );
     } else {
         return (
-            <Grid className={classes.root} container direction="row" justify="center" alignItems="center">
-                <Grid xs={11} sm={6} lg={4} container direction="row" justify="center" alignItems="center" item>
-                    <Paper style={{ width: '100%', padding: 32 }}>
-                        <Grid container direction="column" justify="center" alignItems="center">
-                            {/* Title */}
-                            <Box m={2}>
-                                <Typography variant="h3">Sign in</Typography>
-                            </Box>
 
-                            {/* Sign In Form */}
-                            <Box width="80%" m={1}>
-                                {/* <Email emailIsValid={emailIsValid} setEmail={setEmail} /> */}
-                                <Grid container direction="row" justify="center">
-                                    <Box m={1}>
-                                        <Button style={{width: '200px'}} color="secondary" variant="contained" onClick={activateDriver}>
-                                            Start Ride
-                                        </Button>
-                                    </Box>
-                                </Grid>
-                            </Box>
-                            <Box width="80%" m={1}>
-                                {/* <Email emailIsValid={emailIsValid} setEmail={setEmail} /> */}
-                                <Grid container direction="row" justify="center">
-                                    <Box m={1}>
-                                        <Button style={{width: '200px'}} color="primary" variant="contained" >
-                                            Join Ride
-                                        </Button>
-                                    </Box>
-                                </Grid>
-                            </Box>
-                        </Grid>
-                    </Paper>
+                <Grid className={classes.root} container direction="row" justify="center" alignItems="center">
+                    <Grid xs={11} sm={6} lg={4} container direction="row" justify="center" alignItems="center" item>
+                        <Paper style={{ width: '100%', padding: 32 }}>
+                            <Grid container direction="column" justify="center" alignItems="center">
+                                {/* Title */}
+                                <Box m={2}>
+                                    <Typography variant="h3">Sign in</Typography>
+                                </Box>
+
+                                {/* Sign In Form */}
+                                <Box width="80%" m={1}>
+                                    {/* <Email emailIsValid={emailIsValid} setEmail={setEmail} /> */}
+                                    <Grid container direction="row" justify="center">
+                                        <Box m={1}>
+                                            <Button style={{width: '200px'}} color="secondary" variant="contained" onClick={activateDriver}>
+                                                Start Ride
+                                            </Button>
+                                        </Box>
+                                    </Grid>
+                                </Box>
+                                <Box width="80%" m={1}>
+                                    {/* <Email emailIsValid={emailIsValid} setEmail={setEmail} /> */}
+                                    <Grid container direction="row" justify="center">
+                                        <Box m={1}>
+                                            <Button style={{width: '200px'}} color="primary" variant="contained" >
+                                                Join Ride
+                                            </Button>
+                                        </Box>
+                                    </Grid>
+                                </Box>
+                            </Grid>
+                        </Paper>
+                    </Grid>
                 </Grid>
-            </Grid>
+
         )
     }
 

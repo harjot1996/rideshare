@@ -1,7 +1,7 @@
 // import useContext, useState, useEffect, useRef, useCallback
 import { useContext, useState, useEffect, useRef, useCallback } from 'react';
 // import Context
-import Context from '../Context';
+import Context from './Context';
 // import
 import { OpenStreetMapProvider, GoogleProvider } from 'leaflet-geosearch';
 // import custom components.
