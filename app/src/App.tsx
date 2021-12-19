@@ -43,7 +43,8 @@ const SignInRoute: React.FunctionComponent = () => (
       <Route path="/verify" component={VerifyCode} />
       <Route path="/requestcode" component={RequestCode} />
       <Route path="/forgotpassword" component={ForgotPassword} />
-      <Route path="/" component={Landing} />
+      <Route path="/landing" component={Landing} />
+        <Route path="/" component={Landing} />
 
     </Switch>
   </Router>
@@ -56,7 +57,8 @@ const MainRoute: React.FunctionComponent = () => (
         <Route path="/logout" component={Logout} />
         <Route path="/driver" component={Driver} />
         <Route path="/drivera" component={DriverActive} />
-      <Route path="/" component={Home} />
+      <Route path="/home" component={Home} />
+        <Route path="/" component={Home} />
 
     </Switch>
   </Router>

@@ -197,6 +197,21 @@ const DriverActive = () => {
         });
     }, []);
 
+    async function deleteTop() {
+        const user_id = localStorage.getItem("rs_share_user");
+        await fetch('https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1/routes/delete/top', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                driver_id: user_id,
+            })
+        })
+        window.location.reload();
+    }
+
     return (
         <Context.Provider value={{fromMap, setFromMap, toMap, setToMap, defaultMap, rideFlag, setRideFlag, riderName, setRiderName}}>
             <Box sx={{ display: "flex" }}>
@@ -218,6 +233,7 @@ const DriverActive = () => {
                         style={{ padding: '0 5% 0 5%'}}
                         variant="contained"
                         onClick={() => {
+                            deleteTop()
                         }}>
                         <Typography variant="h6" noWrap component="div">
                             { rideFlag }

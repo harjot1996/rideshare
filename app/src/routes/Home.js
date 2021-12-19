@@ -25,7 +25,7 @@ function Home() {
     let is_active_driver = 'N';
     let is_active_rider = 'N';
 
-    const user_id = localStorage.getItem("rs_share_user");
+    let user_id = localStorage.getItem("rs_share_user");
 
 
 
@@ -33,6 +33,7 @@ function Home() {
     const [activeRider, setActiveRider] = useState("Loading");
 
     React.useEffect(() => {
+        user_id = localStorage.getItem("rs_share_user");
         fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
             .then(res => res.json())
             .then((result) => {
