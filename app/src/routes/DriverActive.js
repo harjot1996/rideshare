@@ -14,6 +14,9 @@ const MainScreen2 = () => {
     const { setRideFlag } = useContext(Context);
     const { riderName, setRiderName } = useContext(Context);
 
+    const [pickup, setPickup] = useState([]);
+    const [pickupDOM, setPickupDOM] = useState(null);
+
 
     React.useLayoutEffect(() => {
         fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
@@ -126,8 +129,35 @@ const MainScreen2 = () => {
         return () => clearInterval(interval);
     }, []);
 
+    React.useLayoutEffect(() => {
+        console.log('aya andarr')
+        console.log(pickup);
+        if (!pickup) {
+            setPickupDOM(<></>);
+        } else {
+            setPickupDOM(
 
+                <Box sx={{ m: 2 }} style={{position:'fixed', width: '70%', height: '25%', left:'15%', top:'37.5%', margin:'0px', 'background-color': 'grey'}}>
+                    tehehe
+                </Box>
 
+            );
+        }
+
+    }, [pickup]);
+
+    React.useLayoutEffect(() => {
+        const interval = setInterval(() => {
+            fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1/pickup?user_id=" + user_id)
+                .then(res => res.json())
+                .then((result) => {
+                    let res = JSON.parse(result);
+                    setPickup(res);
+                })
+                .then((error) => { return error; })
+        }, 2000);
+        return () => clearInterval(interval);
+    }, []);
 
 
     return (
@@ -153,6 +183,7 @@ const MainScreen2 = () => {
                         }}
                     >Submit</Button>}*/}
                 </Box>
+                {pickupDOM}
             </Box>
         </Drawer>
 

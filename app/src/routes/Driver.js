@@ -42,9 +42,9 @@ const MainScreen2 = () => {
         setToCoords(latLng);
     };
 
-    function postRide(from_, to_, seats, detour) {
+    async function postRide(from_, to_, seats, detour) {
         const user_id = localStorage.getItem("rs_share_user");
-        fetch('https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1', {
+        await fetch('https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
