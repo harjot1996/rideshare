@@ -66,6 +66,7 @@ function Home() {
             <div>Loading</div>
         );
     } else if (activeDriver === 'Y') {
+        history.push('drivera');
         return (
 
             <div>Driver</div>

@@ -4,7 +4,11 @@ import {Box} from "@mui/material";
 import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import Renderer from "./Renderer";
 
-const API_KEY = "AIzaSyDciBUuGsYD6gmUrEkV-24bhXvzAXiZz0g";
+//const API_KEY = "AIzaSyAzp0_aceOfsvY8N7SXC20N2sCK2w114Go";
+const API_KEY = "AIzaSyDciBUuGsYD6gmUrEkV-24bhXvzAXiZz0g"; //megha's
+
+
+
 
 
 
@@ -39,7 +43,7 @@ const MapScreen = (input) => {
                     containerElement={<div style={{ height: "80vh" }} />}
                     mapElement={<div style={{ height: "100vh" }} />}
                     defaultCenter={{ lat: input.default.lat, lng: input.default.lng }}
-                    defaultZoom={12}
+                    defaultZoom={9}
                 />
             </Box>
         </Box>

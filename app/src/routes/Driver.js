@@ -1,34 +1,22 @@
-import React, {useEffect, useState} from "react";
-import {AppBar, Box, Drawer, FormControl, Input, List, ListItemText, Toolbar, Typography, Button} from "@mui/material";
+import React, {useContext, useState} from "react";
+import {AppBar, Box, Button, Drawer, FormControl, Input, List, ListItemText, Toolbar, Typography} from "@mui/material";
 import PlacesAutocomplete, {geocodeByAddress, getLatLng} from "react-places-autocomplete";
 import MapScreen from "./Map"
-import { useContext } from 'react';
 import Context from './Context';
-import {GoogleMap, withGoogleMap, withScriptjs} from "react-google-maps";
 import {useHistory} from "react-router-dom";
+import Header from "./Header";
 
 
 const MainScreen2 = () => {
 
     const history = useHistory();
-
-
     const drawerWidth = "20%";
-
     const { setFromMap, setToMap } = useContext(Context);
-
-    const [center, setCenter] = useState({
-        lat: null,
-        lng: null
-    });
-
-
     const [from, setFrom] = useState("");
     const [fromCoords, setFromCoords] = useState({
         lat: null,
         lng: null
     });
-    const [filteredRides, setFilteredRides] = useState([]);
     const [to, setTo] = useState("");
     const [seats, setSeats] = useState("");
     const [detour, setDetour] = useState("");
@@ -36,19 +24,6 @@ const MainScreen2 = () => {
         lat: null,
         lng: null
     });
-
-
-    // TODO: To be fetched real time from AWS
-    const riders = [
-        { lat: 34.0257449, lng: -118.2832194 },
-        { lat: 34.0259722, lng: -118.2841969 }
-    ];
-
-    useEffect(() => {
-        /*navigator.geolocation.getCurrentPosition(function(position) {
-          setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-        });*/
-    })
 
     const handleSelectFrom = async value => {
         const results = await geocodeByAddress(value);
@@ -67,7 +42,7 @@ const MainScreen2 = () => {
         setToCoords(latLng);
     };
 
-    function postRide(from, to, seats, detour) {
+    function postRide(from_, to_, seats, detour) {
         const user_id = localStorage.getItem("rs_share_user");
         fetch('https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1', {
             method: 'POST',
@@ -77,12 +52,14 @@ const MainScreen2 = () => {
             },
             body: JSON.stringify({
                 driver_id: user_id,
-                from_lat: from.lat,
-                from_lng: from.lng,
-                to_lat: to.lat,
-                to_lng: to.lng,
+                from_lat: from_.lat,
+                from_lng: from_.lng,
+                to_lat: to_.lat,
+                to_lng: to_.lng,
                 miles: detour,
                 seats: seats,
+                src: from,
+                dst: to,
             })
         })
         history.push('drivera');
@@ -235,19 +212,9 @@ const MainScreen2 = () => {
     );
 };
 
-const Map = withScriptjs(
-    withGoogleMap(props => (
-        <GoogleMap
-            defaultCenter={{lat: props.center.lat, lng: props.center.lng}}
-            defaultZoom={props.defaultZoom}
-        >
-        </GoogleMap>
-    ))
-);
-
 const InnerMap = () => {
     const { fromMap, toMap, defaultMap } = useContext(Context);
-    if (fromMap && toMap) {
+
         return (
             <Box component="main" sx={{flexGrow: 1}}>
                 <MapScreen
@@ -257,14 +224,6 @@ const InnerMap = () => {
                 />
             </Box>
         );
-    } else {
-
-        return (
-            <Box component="main" sx={{flexGrow: 1}}>
-                <Map center={{lat: defaultMap.lat, lng: defaultMap.lng}}/>
-            </Box>
-        )
-    }
 };
 
 const Driver = () => {
@@ -298,6 +257,8 @@ const Driver = () => {
                         <Typography variant="h6" noWrap component="div">
                             RideShare
                         </Typography>
+                        <Header></Header>
+
                     </Toolbar>
                 </AppBar>
                 <MainScreen2/>
