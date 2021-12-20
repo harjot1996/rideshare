@@ -18,8 +18,6 @@ const MainScreen2 = () => {
         lng: null
     });
     const [to, setTo] = useState("");
-    const [seats, setSeats] = useState("");
-    const [detour, setDetour] = useState("");
     const [toCoords, setToCoords] = useState({
         lat: null,
         lng: null
@@ -29,7 +27,6 @@ const MainScreen2 = () => {
         const results = await geocodeByAddress(value);
         const latLng = await getLatLng(results[0]);
         setFrom(value);
-        //from_ = latLng;
         setFromCoords(latLng);
     };
 
@@ -38,7 +35,6 @@ const MainScreen2 = () => {
         const latLng = await getLatLng(results[0]);
 
         setTo(value);
-        //to_ = latLng;
         setToCoords(latLng);
     };
 
@@ -62,7 +58,7 @@ const MainScreen2 = () => {
                 dst: to,
             })
         })
-        history.push('drivera');
+        history.push('ridera');
     }
 
 
@@ -157,51 +153,13 @@ const MainScreen2 = () => {
                     </FormControl>
                 </Box>
                 <Box sx={{ m: 2 }}>
-                    <FormControl fullWidth>
-                        <PlacesAutocomplete
-                            value={seats}
-                            onChange={setSeats}
-                        >
-                            {({
-                                  getInputProps
-                              }) => (
-                                <Box>
-                                    <Input
-                                        sx={{ width: "100%" }}
-                                        {...getInputProps({ placeholder: "Spare Seats" })}
-                                    />
-                                </Box>
-                            )}
-                        </PlacesAutocomplete>
-                    </FormControl>
-                </Box>
-                <Box sx={{ m: 2 }}>
-                    <FormControl fullWidth>
-                        <PlacesAutocomplete
-                            value={detour}
-                            onChange={setDetour}
-                        >
-                            {({
-                                  getInputProps
-                              }) => (
-                                <Box>
-                                    <Input
-                                        sx={{ width: "100%" }}
-                                        {...getInputProps({ placeholder: "Max Detour (mi)" })}
-                                    />
-                                </Box>
-                            )}
-                        </PlacesAutocomplete>
-                    </FormControl>
-                </Box>
-                <Box sx={{ m: 2 }}>
                     {<Button
                         variant="contained"
                         onClick={() => {
-                            if (fromCoords && toCoords && seats && detour) {
+                            if (fromCoords && toCoords) {
                                 setFromMap(fromCoords);
                                 setToMap(toCoords);
-                                postRide(fromCoords, toCoords, seats, detour);
+                                postRide(fromCoords, toCoords);
                             }
                         }}
                     >Submit</Button>}
@@ -212,21 +170,8 @@ const MainScreen2 = () => {
     );
 };
 
-const InnerMap = () => {
-    const { fromMap, toMap, defaultMap } = useContext(Context);
 
-        return (
-            <Box component="main" sx={{flexGrow: 1}}>
-                <MapScreen
-                    to={{lat: toMap.lat, lng: toMap.lng}}
-                    from={{lat: fromMap.lat, lng: fromMap.lng}}
-                    default={{ lat: defaultMap.lat, lng: defaultMap.lng }}
-                />
-            </Box>
-        );
-};
-
-const Driver = () => {
+const Rider = () => {
     const [fromMap, setFromMap] = useState({
         lat: "",
         lng: ""
@@ -235,19 +180,9 @@ const Driver = () => {
         lat: "",
         lng: ""
     });
-    const [defaultMap, setDefaultMap] = useState({
-        lat: 0.0,
-        lng: 0.0
-    });
-
-    React.useEffect(() => {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            setDefaultMap({lat: position.coords.latitude, lng: position.coords.longitude});
-        });
-    }, []);
 
     return (
-        <Context.Provider value={{fromMap, setFromMap, toMap, setToMap, defaultMap}}>
+        <Context.Provider value={{fromMap, setFromMap, toMap, setToMap}}>
             <Box sx={{ display: "flex" }}>
                 <AppBar
                     position="fixed"
@@ -269,4 +204,4 @@ const Driver = () => {
 
 
 
-export default Driver;
+export default Rider;

@@ -30,8 +30,6 @@ const MapScreen = (input) => {
 
 
     return (
-        <Box sx={{ display: "flex" }}>
-            <Box component="main" sx={{ flexGrow: 1 }}>
                 <Map
                     googleMapURL={
                         "https://maps.googleapis.com/maps/api/js?key=" +
@@ -45,8 +43,7 @@ const MapScreen = (input) => {
                     defaultCenter={{ lat: input.default.lat, lng: input.default.lng }}
                     defaultZoom={9}
                 />
-            </Box>
-        </Box>
+
     );
 };
 

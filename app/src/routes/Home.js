@@ -61,6 +61,11 @@ function Home() {
         history.push('driver');
     }
 
+    function activateRider() {
+        console.log("activating rider");
+        history.push('rider');
+    }
+
 
     if (activeDriver === 'Loading' || activeRider === 'Loading') {
         return (
@@ -104,7 +109,7 @@ function Home() {
                                     {/* <Email emailIsValid={emailIsValid} setEmail={setEmail} /> */}
                                     <Grid container direction="row" justify="center">
                                         <Box m={1}>
-                                            <Button style={{width: '200px'}} color="primary" variant="contained" >
+                                            <Button style={{width: '200px'}} color="primary" variant="contained" onClick={activateRider}>
                                                 Join Ride
                                             </Button>
                                         </Box>

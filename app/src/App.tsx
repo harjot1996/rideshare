@@ -20,6 +20,8 @@ import Home from './routes/Home.js'
 import Driver from './routes/Driver.js'
 import DriverActive from './routes/DriverActive.js'
 import Logout from "./routes/auth/logout";
+import Rider from "./routes/Rider";
+import RiderActive from "./routes/RiderActive";
 
 let lightTheme = createMuiTheme({
   palette: {
@@ -57,6 +59,8 @@ const MainRoute: React.FunctionComponent = () => (
         <Route path="/logout" component={Logout} />
         <Route path="/driver" component={Driver} />
         <Route path="/drivera" component={DriverActive} />
+        <Route path="/rider" component={Rider} />
+        <Route path="/ridera" component={RiderActive} />
       <Route path="/home" component={Home} />
         <Route path="/" component={Home} />
 

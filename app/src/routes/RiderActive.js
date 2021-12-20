@@ -226,7 +226,7 @@ const InnerMap = () => {
         );
 };
 
-const DriverActive = () => {
+const RiderActive = () => {
     const history = useHistory();
     const [fromMap, setFromMap] = useState({
         lat: "",
@@ -309,4 +309,4 @@ const DriverActive = () => {
 
 
 
-export default DriverActive;
+export default RiderActive;
