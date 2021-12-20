@@ -64,16 +64,16 @@ const MainScreen2 = () => {
 
     React.useLayoutEffect(() => {
         const interval = setInterval(() => {
-            /*fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
+            fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
                 .then(res => res.json())
                 .then((result) => {
                     let res_ = JSON.parse(result);
                     if (!res_ || res_==='null') {
-                        let x=1;//history.push('driver');
+                        let x=1;
                     } else {setFromMap({lat: Number(res_[6]), lng: Number(res_[7])});}
                 })
-                .then((error) => { return error; })*/
-            window.location.reload();
+                .then((error) => { return error; })
+            //window.location.reload();
         }, 10000);
         return () => clearInterval(interval);
     }, []);
@@ -101,7 +101,7 @@ const MainScreen2 = () => {
                 )
             });
 
-        }, 6000);
+        }, 60000000); //6000
         return () => clearInterval(interval);
     }, []);
 

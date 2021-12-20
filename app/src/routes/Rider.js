@@ -40,25 +40,24 @@ const MainScreen2 = () => {
 
     async function postRide(from_, to_, seats, detour) {
         const user_id = localStorage.getItem("rs_share_user");
-        await fetch('https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1', {
+        let response = await fetch('https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1/rides/start', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                driver_id: user_id,
+                rider_id: user_id,
                 from_lat: from_.lat,
                 from_lng: from_.lng,
                 to_lat: to_.lat,
                 to_lng: to_.lng,
-                miles: detour,
-                seats: seats,
                 src: from,
                 dst: to,
             })
         })
-        history.push('ridera');
+        console.log(response);
+        //history.push('ridera');
     }
 
 
