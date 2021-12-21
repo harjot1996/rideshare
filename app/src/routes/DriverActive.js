@@ -72,7 +72,7 @@ const MainScreen2 = () => {
                 })
                 .then((error) => { return error; })
             //window.location.reload();
-        }, 10000);
+        }, 5000);
         return () => clearInterval(interval);
     }, []);
 
@@ -99,7 +99,7 @@ const MainScreen2 = () => {
                 )
             });
 
-        }, 60000000); //6000
+        }, 1000); //6000
         return () => clearInterval(interval);
     }, []);
 
