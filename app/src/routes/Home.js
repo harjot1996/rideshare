@@ -91,7 +91,7 @@ function Home() {
                             <Grid container direction="column" justify="center" alignItems="center">
                                 {/* Title */}
                                 <Box m={2}>
-                                    <Typography variant="h3">Sign in</Typography>
+                                    <Typography variant="h3"></Typography>
                                 </Box>
 
                                 {/* Sign In Form */}
