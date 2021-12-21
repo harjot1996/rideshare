@@ -13,6 +13,7 @@ const Renderer = props => {
             stopover: true
         }));
 
+
         const origin = waypoints.shift().location;
         const destination = waypoints.pop().location;
 

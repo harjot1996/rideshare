@@ -22,8 +22,6 @@ const MainScreen2 = () => {
         fetch("https://ct4ocfq9d7.execute-api.us-east-1.amazonaws.com/staging_1?user_id=" + user_id)
             .then(res => res.json())
             .then((result) => {
-                console.log('hjahdsauihduihd')
-
                     let res_ = JSON.parse(result);
                 console.log(res_);
                     if (!res_ || res_==='null') {
@@ -128,8 +126,6 @@ const MainScreen2 = () => {
     }
 
     React.useLayoutEffect(() => {
-        console.log('aya andarr')
-        console.log(pickup);
         if (!pickup) {
             setPickupDOM(<></>);
         } else {

@@ -14,19 +14,34 @@ const API_KEY = "AIzaSyAzp0_aceOfsvY8N7SXC20N2sCK2w114Go";
 
 const MapScreen = (input) => {
 
-    const Map = withScriptjs(
-        withGoogleMap(props => (
-            <GoogleMap
-                defaultCenter={props.defaultCenter}
-                defaultZoom={props.defaultZoom}
-            >
-                {<Renderer
-                    places={props.places}
-                    travelMode={window.google.maps.TravelMode.DRIVING}
-                />}
-            </GoogleMap>
-        ))
-    );
+    let Map;
+    if (input.from && !isNaN(input.from.lat) && !isNaN(input.from.lng) && input.to && !isNaN(input.to.lat) && !isNaN(input.to.lng)) {
+        console.log(input.to.lat);
+        console.log(input.to.lng);
+        Map = withScriptjs(
+            withGoogleMap(props => (
+                <GoogleMap
+                    defaultCenter={props.defaultCenter}
+                    defaultZoom={props.defaultZoom}
+                >
+                    {<Renderer
+                        places={props.places}
+                        travelMode={window.google.maps.TravelMode.DRIVING}
+                    />}
+                </GoogleMap>
+            ))
+        );
+    } else {
+        Map = withScriptjs(
+            withGoogleMap(props => (
+                <GoogleMap
+                    defaultCenter={props.defaultCenter}
+                    defaultZoom={12}
+                >
+                </GoogleMap>
+            ))
+        );
+    }
 
 
     return (

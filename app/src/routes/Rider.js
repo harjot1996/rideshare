@@ -18,6 +18,8 @@ const MainScreen2 = () => {
         lng: null
     });
     const [to, setTo] = useState("");
+    const [rejected, setRejected] = useState(false);
+    const [rejectedDOM, setRejectedDOM] = useState(null);
     const [toCoords, setToCoords] = useState({
         lat: null,
         lng: null
@@ -56,9 +58,54 @@ const MainScreen2 = () => {
                 dst: to,
             })
         })
-        console.log(response);
+            .then(res => res.json())
+            .then((result) => {
+                if (result === 'rejected') {
+                    setRejected(true);
+                    //window.alert('No ride found. Try again later');
+                } else {
+                    history.push('ridera');
+                }
+
+            })
+            .then((error) => { return error; })
+
         //history.push('ridera');
     }
+
+    React.useLayoutEffect(() => {
+        if (!rejected) {
+            setRejectedDOM(<></>);
+        } else {
+            setRejectedDOM(
+
+                <Box sx={{ m: 2 }} style={{position:'fixed', width: '70%', height: '10%', left:'15%', top:'37.5%',
+                    margin:'0px', 'background-color': 'grey'}}>
+                    <Box sx={{ m: 2 }}
+                         style={{position:'fixed', width: '70%', height: '7.5%', left:'15%', top:'45%',
+                             margin:'0px', 'background-color': '#5e955e', 'display':'flex', 'flex-grow':1}}>
+                        <Button
+                            variant="contained"
+                            style={{'background-color':'#5e955e', width:'100vw'}}
+                            onClick={() => {
+                                setRejected(false);
+                            }}
+                        >
+                            <Typography variant="h7" noWrap component="div">
+                                OK
+                            </Typography>
+                        </Button>
+                    </Box>
+                    <Typography variant="h7" component="div" style={{'text-align': 'center', 'vertical-align': 'middle', 'color':'white'}}>
+                        <br/>No ride found. Try again later
+                    </Typography>
+
+                </Box>
+
+            );
+        }
+
+    }, [rejected]);
 
 
     return (
@@ -163,6 +210,8 @@ const MainScreen2 = () => {
                         }}
                     >Submit</Button>}
                 </Box>
+
+                {rejectedDOM}
             </Box>
         </Drawer>
 
